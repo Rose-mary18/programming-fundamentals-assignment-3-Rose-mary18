@@ -11,47 +11,75 @@
 //
 // Write a JavaScript program with TWO parts, each implemented as a function.
 //
-// -----------------------------------------------------------------------------
-// HOW TO RUN THIS PROGRAM
-// -----------------------------------------------------------------------------
-// 1. Install the input library (only once):  npm install readline-sync
-// 2. Run the program:                        node assignment_05_fibonacci_sequence.js
-//
-// -----------------------------------------------------------------------------
-// PART A — Print the First N Terms
-// -----------------------------------------------------------------------------
-// - Ask the user how many terms (N) to display.
-// - Print the first N numbers of the Fibonacci sequence on one line.
-//
-// Example:
-//   How many terms? 7
-//   Fibonacci sequence: 0 1 1 2 3 5 8
-//
-// -----------------------------------------------------------------------------
-// PART B — Check if a Number Belongs to the Sequence
-// -----------------------------------------------------------------------------
-// - Ask the user to enter a number.
-// - Determine whether that number is a Fibonacci number.
-// - Print an appropriate message.
-//
-// Example:
-//   Enter a number to check: 13
-//   13 is a Fibonacci number.
-//
-//   Enter a number to check: 20
-//   20 is NOT a Fibonacci number.
-//
-// -----------------------------------------------------------------------------
-// REQUIREMENTS
-// -----------------------------------------------------------------------------
-// - Use a loop (not recursion) to generate the sequence in both parts.
-// - N must be a positive integer. If it is not, print an error message.
-// - Each part must be implemented in its own function (see scaffold below).
-//
+const readlineSync = require("readline-sync");
 
-//
-// =============================================================================
-// YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
-// =============================================================================
+// Part A - Print the first N Fibonacci terms
+function printFibonacci(n) {
+    if (n <= 0) {
+        console.log("Error: Number of terms must be positive.");
+        return;
+    }
+
+    let first = 0;
+    let second = 1;
+    let sequence = [];
+
+    for (let i = 1; i <= n; i++) {
+        if (i === 1) {
+            sequence.push(first);
+        } else if (i === 2) {
+            sequence.push(second);
+        } else {
+            let next = first + second;
+            sequence.push(next);
+            first = second;
+            second = next;
+        }
+    }
+
+    console.log("Fibonacci sequence: " + sequence.join(" "));
+}
+
+// Part B - Check if a number is a Fibonacci number
+function checkFibonacci(number) {
+    if (number < 0) {
+        console.log(`${number} is NOT a Fibonacci number.`);
+        return;
+    }
+
+    let first = 0;
+    let second = 1;
+
+    if (number === 0 || number === 1) {
+        console.log(`${number} is a Fibonacci number.`);
+        return;
+    }
+
+    while (second < number) {
+        let next = first + second;
+        first = second;
+        second = next;
+    }
+
+    if (second === number) {
+        console.log(`${number} is a Fibonacci number.`);
+    } else {
+        console.log(`${number} is NOT a Fibonacci number.`);
+    }
+}
+
+// Main function
+function main() {
+    const n = readlineSync.questionInt("How many terms? ");
+
+    printFibonacci(n);
+
+    const number = readlineSync.questionInt("\nEnter a number to check: ");
+
+    checkFibonacci(number);
+}
+
+// Run program
+main();
 
 
